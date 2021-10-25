@@ -1,4 +1,19 @@
 <?php 
+    /**
+     * Template Name: Home Page Template
+     *
+     * This is the template that displays all pages by default.
+     * Please note that this is the WordPress construct of pages
+     * and that other 'pages' on your WordPress site may use a
+     * different template.
+     *
+     * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+     *
+     * @package Authum
+     */
+
+
+
     get_header();
 ?>
 
@@ -8,8 +23,8 @@
         <!-- Masthead-->
         <header class="masthead">
             <div class="container">
-                <div class="masthead-subheading">Welcome To Our Studio!</div>
-                <div class="masthead-heading text-uppercase">It's Nice To Meet You</div>
+                <div class="masthead-subheading"><?php echo get_field('banner_subtitle'); ?></div>
+                <div class="masthead-heading text-uppercase"><?php echo get_field('banner_title'); ?></div>
                 <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a>
             </div>
         </header>
@@ -21,30 +36,32 @@
                     <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
                 </div>
                 <div class="row text-center">
-                    <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <h4 class="my-3">E-Commerce</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <h4 class="my-3">Responsive Design</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <h4 class="my-3">Web Security</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-                    </div>
+                <?php 
+                    $loop = new WP_query(array(
+                        'post_type' => 'service',
+                        'orderby' => 'post_id',
+                        'order' => 'ASC'
+                    ));
+
+                    while($loop -> have_posts()):
+                        $loop -> the_post();
+                        ?>
+                            <div class="col-md-4">
+                                <span class="fa-stack fa-4x">
+                                    <?php 
+                                        if(has_post_thumbnail()){
+                                            the_post_thumbnail();
+                                        }
+                                    ?>
+                                </span>
+                                <h4 class="my-3"><?php echo the_title(); ?></h4>
+                                <p class="text-muted"><?php echo the_content(); ?></p>
+                            </div>
+                        <?php
+                    endwhile;
+                ?>
+                
+                    
                 </div>
             </div>
         </section>
@@ -219,36 +236,35 @@
                     <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4">
-                        <div class="team-member">
-                            <img class="mx-auto rounded-circle" src="<?php bloginfo('stylesheet_directory'); ?>/files/assets/img/team/1.jpg" alt="..." />
-                            <h4>Parveen Anand</h4>
-                            <p class="text-muted">Lead Designer</p>
-                            <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="team-member">
-                            <img class="mx-auto rounded-circle" src="<?php bloginfo('stylesheet_directory'); ?>/files/assets/img/team/2.jpg" alt="..." />
-                            <h4>Diana Petersen</h4>
-                            <p class="text-muted">Lead Marketer</p>
-                            <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="team-member">
-                            <img class="mx-auto rounded-circle" src="<?php bloginfo('stylesheet_directory'); ?>/files/assets/img/team/3.jpg" alt="..." />
-                            <h4>Larry Parker</h4>
-                            <p class="text-muted">Lead Developer</p>
-                            <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
+                <?php 
+                    $team = new WP_Query(array(
+                        'post_type' => 'team',
+                        'orderby' => 'post_id',
+                        'order' => 'ASC'
+                    ));
+
+                    while($team -> have_posts()):
+                        $team -> the_post();
+                        ?>
+                            <div class="col-lg-4">
+                                <div class="team-member">
+                                    <?php 
+                                        if(has_post_thumbnail()){
+                                            the_post_thumbnail('post-thumbnail', ['class' => 'mx-auto rounded-circle', 'title' => 'team member']);
+                                        }
+                                    ?>
+                                    <!-- <img class="mx-auto rounded-circle" src="<?php bloginfo('stylesheet_directory'); ?>/files/assets/img/team/1.jpg" alt="..." /> -->
+                                    <h4><?php the_title(); ?></h4>
+                                    <p class="text-muted"><?php the_content(); ?></p>
+                                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                            </div>
+                        <?php
+                    endwhile;
+                    ?>
+                    
                 </div>
                 <div class="row">
                     <div class="col-lg-8 mx-auto text-center"><p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p></div>

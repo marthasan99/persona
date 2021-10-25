@@ -8,14 +8,6 @@
                         <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
                         <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
                     </div>
-                    <?php 
-                        wp_nav_menu(
-                            array(
-                                'theme_location' => 'footer',
-                                'container_class' => 'col-lg-4 text-lg-end'
-                            )
-                        );
-                    ?>
                     <!-- <div class="col-lg-4 text-lg-end">
                         <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
                         <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
